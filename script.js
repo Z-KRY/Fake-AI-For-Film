@@ -251,9 +251,30 @@ CLEAR`;
                 // Wait a brief moment, then start unblurring from top to bottom
                 await this.sleep(100);
 
-                // Animate the sharp image revealing from top to bottom over 5 seconds
-                imgSharp.style.transition = 'clip-path 5s linear';
-                imgSharp.style.clipPath = 'inset(0 0 0 0)'; // End with everything visible
+                // Animate the sharp image revealing with realistic AI-style progression
+                // Random jumps and varying speeds to mimic real AI image generation
+                const revealSteps = [
+                    { clip: 'inset(0 0 95% 0)', duration: 200 },   // Quick jump to 5%
+                    { clip: 'inset(0 0 88% 0)', duration: 150 },   // Another jump
+                    { clip: 'inset(0 0 82% 0)', duration: 300 },   // Slower
+                    { clip: 'inset(0 0 70% 0)', duration: 100 },   // Quick jump
+                    { clip: 'inset(0 0 65% 0)', duration: 400 },   // Slow down
+                    { clip: 'inset(0 0 58% 0)', duration: 250 },   // Medium
+                    { clip: 'inset(0 0 45% 0)', duration: 150 },   // Jump
+                    { clip: 'inset(0 0 38% 0)', duration: 350 },   // Slower
+                    { clip: 'inset(0 0 30% 0)', duration: 200 },   // Medium
+                    { clip: 'inset(0 0 22% 0)', duration: 400 },   // Slow
+                    { clip: 'inset(0 0 15% 0)', duration: 180 },   // Jump
+                    { clip: 'inset(0 0 8% 0)', duration: 300 },    // Slower
+                    { clip: 'inset(0 0 3% 0)', duration: 250 },    // Almost done
+                    { clip: 'inset(0 0 0 0)', duration: 400 }      // Final reveal
+                ];
+
+                for (const step of revealSteps) {
+                    imgSharp.style.transition = `clip-path ${step.duration}ms ease-out`;
+                    imgSharp.style.clipPath = step.clip;
+                    await this.sleep(step.duration);
+                }
             };
 
             imgBlurred.onerror = () => {
