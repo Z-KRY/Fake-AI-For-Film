@@ -6,6 +6,7 @@ class ChatApp {
         this.waitingForUser = false;
         this.currentImagePlaceholder = null;
         this.hourglassSVG = this.getHourglassSVG();
+        this.autoScroll = true;
 
         this.initElements();
         this.attachEventListeners();
@@ -72,6 +73,7 @@ class ChatApp {
         this.closeEditorBtn = document.getElementById('closeEditor');
         this.loadScriptBtn = document.getElementById('loadScript');
         this.resetChatBtn = document.getElementById('resetChat');
+        this.autoScrollToggle = document.getElementById('autoScrollToggle');
     }
 
     attachEventListeners() {
@@ -87,6 +89,9 @@ class ChatApp {
         this.closeEditorBtn.addEventListener('click', () => this.toggleEditor());
         this.loadScriptBtn.addEventListener('click', () => this.loadScript());
         this.resetChatBtn.addEventListener('click', () => this.resetChat());
+        this.autoScrollToggle.addEventListener('change', (e) => {
+            this.autoScroll = e.target.checked;
+        });
 
         // Auto-resize textarea
         this.userInput.addEventListener('input', () => {
@@ -386,7 +391,9 @@ CLEAR`;
     }
 
     scrollToBottom() {
-        this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+        if (this.autoScroll) {
+            this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+        }
     }
 
     sleep(ms) {
