@@ -7,6 +7,9 @@ class ChatApp {
         this.currentImagePlaceholder = null;
         this.hourglassSVG = this.getHourglassSVG();
         this.autoScroll = true;
+        this.smoothScroll = false;
+        this.scrollSpeed = 5; // 1-10 scale
+        this.isScrolling = false;
 
         this.initElements();
         this.attachEventListeners();
@@ -74,6 +77,8 @@ class ChatApp {
         this.loadScriptBtn = document.getElementById('loadScript');
         this.resetChatBtn = document.getElementById('resetChat');
         this.autoScrollToggle = document.getElementById('autoScrollToggle');
+        this.smoothScrollToggle = document.getElementById('smoothScrollToggle');
+        this.scrollSpeedSlider = document.getElementById('scrollSpeedSlider');
     }
 
     attachEventListeners() {
@@ -91,6 +96,12 @@ class ChatApp {
         this.resetChatBtn.addEventListener('click', () => this.resetChat());
         this.autoScrollToggle.addEventListener('change', (e) => {
             this.autoScroll = e.target.checked;
+        });
+        this.smoothScrollToggle.addEventListener('change', (e) => {
+            this.smoothScroll = e.target.checked;
+        });
+        this.scrollSpeedSlider.addEventListener('input', (e) => {
+            this.scrollSpeed = parseInt(e.target.value);
         });
 
         // Auto-resize textarea
@@ -391,9 +402,48 @@ CLEAR`;
     }
 
     scrollToBottom() {
-        if (this.autoScroll) {
-            this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+        if (!this.autoScroll) return;
+
+        const targetScroll = this.chatMessages.scrollHeight;
+
+        if (this.smoothScroll) {
+            // Smooth gradual scroll
+            this.smoothScrollTo(targetScroll);
+        } else {
+            // Instant jump
+            this.chatMessages.scrollTop = targetScroll;
         }
+    }
+
+    smoothScrollTo(target) {
+        if (this.isScrolling) return;
+
+        const start = this.chatMessages.scrollTop;
+        const distance = target - start;
+
+        // Speed: 1 (slow) = 2000ms, 10 (fast) = 200ms
+        const duration = 2200 - (this.scrollSpeed * 200);
+        const startTime = performance.now();
+
+        this.isScrolling = true;
+
+        const animateScroll = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            // Ease-out function for smooth deceleration
+            const easeProgress = 1 - Math.pow(1 - progress, 3);
+
+            this.chatMessages.scrollTop = start + (distance * easeProgress);
+
+            if (progress < 1) {
+                requestAnimationFrame(animateScroll);
+            } else {
+                this.isScrolling = false;
+            }
+        };
+
+        requestAnimationFrame(animateScroll);
     }
 
     sleep(ms) {

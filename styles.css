@@ -171,6 +171,68 @@ body {
     font-size: 14px;
 }
 
+.scroll-mode-container,
+.scroll-speed-container {
+    margin-top: 15px;
+}
+
+.speed-label {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    cursor: default;
+}
+
+.speed-control {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.speed-indicator {
+    color: #8e8ea0;
+    font-size: 12px;
+    min-width: 35px;
+}
+
+#scrollSpeedSlider {
+    flex: 1;
+    height: 4px;
+    appearance: none;
+    background: #40414f;
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+}
+
+#scrollSpeedSlider::-webkit-slider-thumb {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #10a37f;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#scrollSpeedSlider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+#scrollSpeedSlider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #10a37f;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#scrollSpeedSlider::-moz-range-thumb:hover {
+    transform: scale(1.2);
+}
+
 /* Chat Container */
 .chat-container {
     flex: 1;
