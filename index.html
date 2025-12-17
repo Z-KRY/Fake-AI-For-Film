@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Script Editor Panel -->
+        <div id="scriptEditor" class="script-editor hidden">
+            <div class="script-header">
+                <h2>Script Editor</h2>
+                <button id="closeEditor" class="btn-close">×</button>
+            </div>
+            <textarea id="scriptInput" placeholder="Enter your script here...
+Example:
+SAY Hello how can I help you today?
+USER
+THINK 10
+SAY Let me help you with that."></textarea>
+            <div class="script-controls">
+                <button id="loadScript" class="btn-primary">Load Script</button>
+                <button id="resetChat" class="btn-secondary">Reset Chat</button>
+            </div>
+        </div>
+
+        <!-- Chat Interface -->
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="header-content">
+                    <h1>AI Assistant</h1>
+                    <button id="toggleEditor" class="btn-toggle" title="Toggle Script Editor">⚙</button>
+                </div>
+            </div>
+
+            <div id="chatMessages" class="chat-messages">
+                <!-- Messages will be added here -->
+            </div>
+
+            <div class="chat-input-container">
+                <div class="input-wrapper">
+                    <textarea
+                        id="userInput"
+                        placeholder="Send a message..."
+                        rows="1"
+                        disabled></textarea>
+                    <button id="sendBtn" class="send-btn" disabled>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M7 11L12 6L17 11M12 18V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
